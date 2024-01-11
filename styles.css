@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: #cfcfcf;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -31,4 +31,23 @@ header {
 .cell {
     border-style: solid;
     flex-grow: 1;
+    margin: -1px;
+    background-color: rgb(218, 195, 162);
+    font-size: 3rem;
+    padding: 0px;
+    margin: -1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+span {
+    height: 80%;
+    width: 80%;
+    border-radius: 50%;
+}
+.black{
+    background-color: black;
+}
+.white{
+    background-color: white;
 }

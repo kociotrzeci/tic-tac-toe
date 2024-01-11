@@ -1,22 +1,7 @@
-const boardSize = 10;
-const howManyTicks = 3;
-
-const container = document.querySelector('.container');
-for (let i= 0; i < boardSize; i++){
-  const row =  document.createElement('div')
-  row.className = 'row';
-  for(let j = 0; j < boardSize; j++)
-  {
-    const cell = document.createElement('div');
-    cell.className = 'cell';
-    row.appendChild(cell);
-  }
-  container.appendChild(row);
-}
-
-
-
-
+const boardSize = 15;
+const howManyTicks = 5;
+const game = new Game();
+game.reset();
 
 
 
@@ -24,7 +9,8 @@ function Board() {
   const board = new Array(boardSize).fill().map(() => new Array(boardSize).fill('.'));
   function fill (row, col, mark){
     if (board[col][row]==='.')board[col][row] = mark;
-    else console.log("invalid move");
+    else {console.log("invalid move");
+    return 1;}
   }
   function logBoard(){
     for(let i = 0; i < boardSize; i++){
@@ -32,23 +18,29 @@ function Board() {
     }
     console.log('');
   }
-  function getBoard(){return board;} 
   function checkRows(mark){
-    for (let i = 0; i < boardSize; i++){
-      if (board[i].filter(x => x===mark).length === howManyTicks) return true;
+    for(let i = 0; i <= boardSize - howManyTicks; i++){
+      for(let j = 0; j <= boardSize - howManyTicks; j++){
+        let counter = 0;
+        for(let k = 0; k < howManyTicks; k++){
+          if(board[i][j+k] === mark) counter++;
+        }
+        if(counter === howManyTicks) return true;
+      }
     }
     return false;
   }
   function checkColumns(mark){
-    for (let i = 0; i < boardSize; i++)
-    {
-      let counter = 0;
-      for (let j = 0; j< boardSize; j++){   
-        if (board[j][i] === mark) counter++;
+    for(let i = 0; i <= boardSize - howManyTicks; i++){
+      for(let j = 0; j <= boardSize - howManyTicks; j++){
+        let counter = 0;
+        for(let k = 0; k < howManyTicks; k++){
+          if(board[i+k][j] === mark) counter++;
+        }
+        if(counter === howManyTicks) return true;
       }
-      if (counter >= howManyTicks) return true;
-      else counter = 0;
     }
+    return false;
   }
   function checkDiagonalRight(mark){
     for(let i = 0; i <= boardSize - howManyTicks; i++){
@@ -86,19 +78,48 @@ function Board() {
 
 function Player(mark, gameBoard){
   function makeMove(x, y){
-    gameBoard.fill(x, y, mark);
+    if (gameBoard.fill(x, y, mark)===1) return 1;
     gameBoard.logBoard();
-    gameBoard.doIwin(mark);
+    gameBoard.doIwin(mark);    
   }
   return{makeMove}
 }
 function Game(){
+  let whooseTurn = true;
   const gameBoard = Board();
   this.p1 = new Player('O', gameBoard);
   this.p2 = new Player('X', gameBoard);
+  this.makeMove = function (cell){
+    if (whooseTurn === true){
+      if (this.p1.makeMove(cell.x, cell.y)) return 1;
+      else  cell.dot.classList.add('white');
+    }
+    else {
+      if (this.p2.makeMove(cell.x, cell.y)) return 1;
+      else  cell.dot.classList.add('black');
+    }
+    whooseTurn = !whooseTurn;
+  }
+  this.reset = function () {
+    const container = document.querySelector('.container');
+    const game = this;
+    for (let i = 0; i < boardSize; i++){
+      const row =  document.createElement('div')
+      row.className = 'row';
+      for(let j = 0; j< boardSize; j++)
+      {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.x = j;
+        cell.y = i;
+        row.appendChild(cell);
+        cell.dot = document.createElement('span');
+        cell.appendChild(cell.dot);
+        cell.addEventListener('click', function(e){
+          game.makeMove(this);
+        });
+      }
+    container.appendChild(row);
+    }
+  }
 }
-
-const game = new Game();
-game.p1.makeMove(0, 2);
-game.p1.makeMove(1, 1);
-game.p1.makeMove(2, 2);
