@@ -9,12 +9,14 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 header {
     background-color: #333;
     color: white;
     padding: 10px 0;
     text-align: center;
 }
+
 .container {
     flex-grow: 1;
     align-self: center;
@@ -24,10 +26,12 @@ header {
     display: flex;
     flex-direction: column;
 }
+
 .row {
     display: flex;
     flex-grow: 1;
 }
+
 .cell {
     border-style: solid;
     flex-grow: 1;
@@ -40,14 +44,21 @@ header {
     justify-content: center;
     align-items: center;
 }
+
 span {
     height: 80%;
     width: 80%;
     border-radius: 50%;
 }
-.black{
+
+.black {
     background-color: black;
 }
-.white{
+
+.white {
     background-color: white;
+}
+
+::backdrop {
+    background-color: rgba(0, 0, 0, 0.377);
 }
