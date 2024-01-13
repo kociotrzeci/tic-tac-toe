@@ -1,5 +1,5 @@
-const boardSize = 3;
-const howManyTicks = 3;
+const boardSize = 15;
+const howManyTicks = 5;
 const game = new Game();
 game.reset();
 
