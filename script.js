@@ -1,5 +1,5 @@
-const boardSize = 3;
-const howManyTicks = 3;
+const boardSize = 15;
+const howManyTicks = 5;
 const game = new Game();
 game.reset();
 
@@ -23,7 +23,7 @@ function Board() {
     console.log('');
   }
   function checkRows(mark) {
-    for (let i = 0; i <= boardSize - howManyTicks; i++) {
+    for (let i = 0; i < boardSize; i++) {
       for (let j = 0; j <= boardSize - howManyTicks; j++) {
         let counter = 0;
         for (let k = 0; k < howManyTicks; k++) {
@@ -36,7 +36,7 @@ function Board() {
   }
   function checkColumns(mark) {
     for (let i = 0; i <= boardSize - howManyTicks; i++) {
-      for (let j = 0; j <= boardSize - howManyTicks; j++) {
+      for (let j = 0; j < boardSize; j++) {
         let counter = 0;
         for (let k = 0; k < howManyTicks; k++) {
           if (board[i + k][j] === mark) counter++;
