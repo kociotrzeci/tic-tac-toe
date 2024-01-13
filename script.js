@@ -1,5 +1,5 @@
-const boardSize = 15;
-const howManyTicks = 5;
+const boardSize = 3;
+const howManyTicks = 3;
 const game = new Game();
 game.reset();
 
@@ -70,18 +70,34 @@ function Board() {
     }
     return false;
   }
+  function showDialog(textContent) {
+    dialog.showModal();
+    let dialogText = document.querySelector('#wich-player');
+    dialogText.textContent = textContent;
+    dialog.addEventListener('click', function (e) {
+      dialog.close();
+      game.reset();
+      isWon = false;
+    })
+
+  }
   function doIwin(mark) {
     if (checkRows(mark) || checkColumns(mark) || checkDiagonalRight(mark) || checkDiagonalLeft(mark)) {
       console.log(mark + " wins");
-      dialog.showModal();
-      dialog.addEventListener('click', function (e) {
-        dialog.close();
-        game.reset();
-        isWon = false;
-      })
+      showDialog(mark + ' wins');
       return 1;
     };
+    if (areMoves() === 0) showDialog('a tie');
   }
+  function areMoves() {
+    for (let i = 0; i < boardSize; i++) {
+      for (let j = 0; j < boardSize; j++) {
+        if (board[i][j] === '.') return 1;
+      }
+    }
+    return 0;
+  }
+
   return { fill, logBoard, doIwin };
 }
 function Player(mark, gameBoard) {
